@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/* 1. Base variables */
+@layer base {
+  :root {
+    /* 🎨 Color Tokens */
+    --border: hsl(215 16% 92%);
+    --input: hsl(215 16% 92%);
+    --input-hover: hsl(215 16% 88%);
+    --ring: hsl(158 64% 52%);
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(215 25% 11%);
+
+    --primary: hsl(158 64% 52%);
+    --primary-foreground: hsl(0 0% 100%);
+    --primary-hover: hsl(158 64% 45%);
+    --primary-light: hsl(158 64% 92%);
+
+    --secondary: hsl(215 16% 97%);
+    --secondary-foreground: hsl(215 25% 11%);
+    --secondary-hover: hsl(215 16% 94%);
+
+    --destructive: hsl(0 84% 60%);
+    --destructive-foreground: hsl(0 0% 100%);
+
+    --success: hsl(142 76% 36%);
+    --success-foreground: hsl(0 0% 100%);
+
+    --warning: hsl(38 92% 50%);
+    --warning-foreground: hsl(0 0% 100%);
+
+    --muted: hsl(215 16% 96%);
+    --muted-foreground: hsl(215 15% 57%);
+
+    --accent: hsl(210 100% 97%);
+    --accent-foreground: hsl(215 25% 11%);
+    --accent-blue: hsl(210 100% 56%);
+
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(215 25% 11%);
+
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(215 25% 11%);
+    --card-hover: hsl(0 0% 98%);
+
+    /* Sidebar */
+    --sidebar-background: hsl(0 0% 98%);
+    --sidebar-foreground: hsl(240 5.3% 26.1%);
+    --sidebar-primary: hsl(240 5.9% 10%);
+    --sidebar-primary-foreground: hsl(0 0% 98%);
+    --sidebar-accent: hsl(240 4.8% 95.9%);
+    --sidebar-accent-foreground: hsl(240 5.9% 10%);
+    --sidebar-border: hsl(220 13% 91%);
+    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+    /* Shadows & Gradients */
+    --shadow-premium: 0 25px 50px -12px hsl(215 25% 11% / 0.25);
+    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.3);
+
+    --gradient-primary: linear-gradient(135deg, var(--primary), hsl(158 64% 45%));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary), hsl(215 16% 94%));
+    --gradient-hero: linear-gradient(135deg, var(--primary) 0%, hsl(210 100% 56%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(215 16% 98%) 100%);
+
+    --radius: 0.5rem;
+
+    /* Fallback colors */
+    --color-white: hsl(0 0% 100%);
+    --color-black: hsl(0 0% 0%);
+  }
+
+  .dark {
+    --background: hsl(215 25% 6%);
+    --foreground: hsl(0 0% 95%);
+    --card: hsl(215 25% 8%);
+    --card-foreground: hsl(0 0% 95%);
+    --card-hover: hsl(215 25% 10%);
+    --popover: hsl(215 25% 8%);
+    --popover-foreground: hsl(0 0% 95%);
+    --primary-light: hsl(158 64% 15%);
+    --secondary: hsl(215 25% 12%);
+    --secondary-hover: hsl(215 25% 15%);
+    --secondary-foreground: hsl(0 0% 95%);
+    --muted: hsl(215 25% 10%);
+    --muted-foreground: hsl(215 15% 65%);
+    --accent: hsl(210 100% 12%);
+    --accent-foreground: hsl(0 0% 95%);
+    --accent-blue: hsl(210 100% 56%);
+    --destructive: hsl(0 84% 60%);
+    --destructive-foreground: hsl(0 0% 100%);
+    --border: hsl(215 25% 15%);
+    --input: hsl(215 25% 15%);
+    --input-hover: hsl(215 25% 18%);
+    --ring: hsl(158 64% 52%);
+    --shadow-premium: 0 25px 50px -12px hsl(0 0% 0% / 0.4);
+    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.4);
+    --sidebar-background: hsl(240 5.9% 10%);
+    --sidebar-foreground: hsl(240 4.8% 95.9%);
+    --sidebar-primary: hsl(224.3 76.3% 48%);
+    --sidebar-accent: hsl(240 3.7% 15.9%);
+    --sidebar-border: hsl(240 3.7% 15.9%);
+    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  }
+}
+
+/* 2. Theme mapping */
+@theme {
+  --color-*: initial;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-hover: var(--secondary-hover);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-blue: var(--accent-blue);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-card-hover: var(--card-hover);
+
+  --color-sidebar: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* 3. Base styles */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+/* 4. Components */
+@layer components {
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-accent-blue text-primary-foreground 
+           px-8 py-4 rounded-lg font-semibold text-lg shadow-lg 
+           hover:shadow-xl transform hover:scale-105 transition-all duration-300;
+  }
+  .btn-premium {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium 
+           shadow-md hover:bg-primary-hover hover:shadow-lg 
+           transform hover:scale-[1.02] transition-all duration-300;
+  }
+  .card-premium {
+    @apply bg-card border border-border rounded-xl shadow-md 
+           hover:shadow-lg transition-all duration-300 p-6;
+  }
+  .card-product {
+    @apply bg-card border border-border rounded-xl overflow-hidden 
+           hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300;
+  }
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+}
+
+/* 5. Utilities */
+@layer utilities {
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-out {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(10px); }
+  }
+  @keyframes slide-up {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scale-in {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 5px hsl(var(--primary) / 0.5); }
+    50% { box-shadow: 0 0 20px hsl(var(--primary) / 0.8); }
+  }
+  @keyframes slide-in-right {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+  }
+
+  .animate-fade-in { animation: fade-in 0.6s ease-out; }
+  .animate-fade-out { animation: fade-out 0.3s ease-out; }
+  .animate-slide-up { animation: slide-up 0.6s ease-out; }
+  .animate-scale-in { animation: scale-in 0.4s ease-out; }
+  .pulse-glow { animation: pulse-glow 2s infinite; }
+  .animate-slide-in-right { animation: slide-in-right 0.3s ease-out; }
+}
