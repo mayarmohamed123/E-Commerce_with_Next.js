@@ -1,13 +1,22 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // ✅ Import the correct hook
-import { Search, User } from "lucide-react";
-import { Button, DropdownMenu, DropdownMenuTrigger, Input } from "../ui";
-
+import { usePathname } from "next/navigation";
+import { Heart, Menu, Search, ShoppingCart, User, X } from "lucide-react";
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  Input,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  Badge,
+} from "../ui";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -40,8 +49,7 @@ export default function Navbar() {
                   href={link.path}
                   className={`text-sm font-medium transition-colors hover:text-primary ${
                     isActive ? "text-primary" : "text-muted-foreground"
-                  }`}
-                >
+                  }`}>
                   {link.label}
                 </Link>
               );
@@ -52,19 +60,110 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center max-w-sm w-full mx-8">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input type="text" placeholder="Search product" className="pl-10 bg-muted/50 border-border focus:bg-background transition-colors" />
+              <Input
+                type="text"
+                placeholder="Search product"
+                className="pl-10 bg-muted/50 border-border focus:bg-background transition-colors"
+              />
             </div>
           </div>
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-3">
-            <DropdownMenu >
+            <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="p-2">
                   <User className="w-5 h-5" />
                 </Button>
               </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem asChild>
+                  <Link href="/profile"> Profile </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/orders"> Orders </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/wishlist"> Wishlist </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/signin"> Sign In </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
             </DropdownMenu>
+
+            {/* Wishlist */}
+            <Button variant="ghost" size="sm" asChild className="relative p-2">
+              <Link href="/wishlist">
+                <Heart className="w-5 h-5" />
+                <Badge
+                  variant="destructive"
+                  className="absolute -top-1 -right-1 w-4 h-4 p-0 text-sm ">
+                  3
+                </Badge>
+              </Link>
+            </Button>
+
+            {/* Cart */}
+            <Button variant="ghost" size="sm" asChild className="relative p-2">
+              <Link href="/cart">
+                <ShoppingCart className="w-5 h-5" />
+                <Badge
+                  variant="destructive"
+                  className="absolute -top-1 -right-1 w-4 h-4 p-0 text-sm ">
+                  2
+                </Badge>
+              </Link>
+            </Button>
+
+            {/* Mobile Menu Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </Button>
+
+            {/* Mobile Menu */}
+            {isMenuOpen && (
+              <div className="md:hidden py-4 border-t border-border animate-fade-in ">
+                {/* Mobile Search */}
+                <div className="relative mb-4">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <Input
+                    type="text"
+                    placeholder="Search product"
+                    className="pl-10 bg-muted/50 border-border focus:bg-background transition-colors"
+                  />
+                </div>
+
+                {/* Mobile Navigation Links */}
+                <div className="space-y-2">
+                  {navLinks.map((link) => {
+                    const isActive = pathname === link.path;
+                    return (
+                      <Link
+                        key={link.path}
+                        href={link.path}
+                        className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                          isActive
+                            ? "bg-primary/10 text-primary"
+                            : "text-foreground hover:bg-mutes"
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}>
+                        {link.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

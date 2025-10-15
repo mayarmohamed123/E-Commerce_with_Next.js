@@ -1,7 +1,10 @@
+import { Spinner } from '@/Components/ui'
 import React from 'react'
 
 export default function loading() {
   return (
-    <div>loading</div>
+    <div className='min-h-screen flex justify-center items-center'>
+      <Spinner size-20 text-blue-500/>
+    </div>
   )
 }
