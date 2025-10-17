@@ -3,10 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/interfaces";
-import { Star, ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 import { renderStars } from "@/helpers/rating";
 import { formatPrice } from "@/helpers/currency";
 import { Button } from "../ui";
+import { apiServices } from "@/Services/api";
+import { useState } from "react";
+import loading from "./../../app/loading";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +17,16 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
+  const [addToCartLoading, setAddToCartLoading] = useState(false);
+
+  async function handleAddToCart() {
+    setAddToCartLoading(true);
+    const data = await apiServices.addProductToCart(product?._id);
+    if (data.message === "success") {
+      setAddToCartLoading(false);
+    }
+  }
+
   if (viewMode === "list") {
     return (
       <div className="flex gap-4 p-4 border rounded-lg hover:shadow-md transition-shadow">
@@ -32,8 +45,7 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
             <h3 className="font-semibold text-lg line-clamp-2">
               <Link
                 href={`/products/${product.id}`}
-                className="hover:text-primary transition-colors"
-              >
+                className="hover:text-primary transition-colors">
                 {product.title}
               </Link>
             </h3>
@@ -68,18 +80,16 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
                 <span>
                   Brand:{" "}
                   <Link
-                    href={``}
-                    className="hover:text-primary hover:underline transition-colors"
-                  >
+                    href={`/brands/${product.brand._id}`}
+                    className="hover:text-primary hover:underline transition-colors">
                     {product.brand.name}
                   </Link>
                 </span>
                 <span>
                   Category:{" "}
                   <Link
-                    href={``}
-                    className="hover:text-primary hover:underline transition-colors"
-                  >
+                    href={`/categories/${product.category._id}`}
+                    className="hover:text-primary hover:underline transition-colors">
                     {product.category.name}
                   </Link>
                 </span>
@@ -97,12 +107,12 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
   }
 
   return (
-    <div className="group relative bg-white border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300">
+    <div className="group relative bg-[#ffffff] border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300">
       {/* Product Image */}
       <div className="relative aspect-square overflow-hidden">
         <Image
-          src={""}
-          alt={""}
+          src={product.imageCover}
+          alt={product.title}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-300"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
@@ -112,8 +122,7 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
         <Button
           variant="ghost"
           size="sm"
-          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 hover:bg-white"
-        >
+          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-[#ffffff]/80 hover:bg-[#ffffff]">
           <Heart className="h-4 w-4" />
         </Button>
 
@@ -130,46 +139,50 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
         {/* Brand */}
         <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wide">
           <Link
-            href={``}
-            className="hover:text-primary hover:underline transition-colors"
-          >
-            {"product.brand.name"}
+            href={`/brands/${product.brand._id}`}
+            className="hover:text-primary hover:underline transition-colors">
+            {product.brand.name}
           </Link>
         </p>
 
         {/* Title */}
         <h3 className="font-semibold text-sm mb-2 line-clamp-2 hover:text-primary transition-colors">
-          <Link href={``}>{"product.title"}</Link>
+          <Link href={`/products/${product.id}`}>{product.title}</Link>
         </h3>
 
         {/* Rating */}
         <div className="flex items-center gap-1 mb-2">
-          <div className="flex">{renderStars(5)}</div>
+          <div className="flex">{renderStars(product.ratingsAverage)}</div>
           <span className="text-xs text-muted-foreground">
-            ({"product.ratingsQuantity"})
+            ({product.ratingsQuantity})
           </span>
         </div>
 
         {/* Category */}
         <p className="text-xs text-muted-foreground mb-2">
           <Link
-            href={``}
-            className="hover:text-primary hover:underline transition-colors"
-          >
-            {"product.category.name"}
+            href={`/categories/${product.category._id}`}
+            className="hover:text-primary hover:underline transition-colors">
+            {product.category.name}
           </Link>
         </p>
 
         {/* Price */}
         <div className="flex items-center justify-between mb-3">
           <span className="text-lg font-bold text-primary">
-            {formatPrice(5400)}
+            {formatPrice(product.price)}
           </span>
-          <span className="text-xs text-muted-foreground">{1500} sold</span>
+          <span className="text-xs text-muted-foreground">
+            {product.sold} sold
+          </span>
         </div>
 
         {/* Add to Cart Button */}
-        <Button className="w-full" size="sm">
+        <Button
+          className="w-full"
+          size="sm"
+          // loading={addToCartLoading}
+          onClick={handleAddToCart}>
           <ShoppingCart className="h-4 w-4 mr-2" />
           Add to Cart
         </Button>
