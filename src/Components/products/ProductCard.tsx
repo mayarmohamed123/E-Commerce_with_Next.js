@@ -7,9 +7,7 @@ import { ShoppingCart, Heart } from "lucide-react";
 import { renderStars } from "@/helpers/rating";
 import { formatPrice } from "@/helpers/currency";
 import { Button } from "../ui";
-import { apiServices } from "@/Services/api";
-import { useState } from "react";
-import loading from "./../../app/loading";
+import AddToCardButton from "./AddToCardButton";
 
 interface ProductCardProps {
   product: Product;
@@ -17,16 +15,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
-  const [addToCartLoading, setAddToCartLoading] = useState(false);
-
-  async function handleAddToCart() {
-    setAddToCartLoading(true);
-    const data = await apiServices.addProductToCart(product?._id);
-    if (data.message === "success") {
-      setAddToCartLoading(false);
-    }
-  }
-
   if (viewMode === "list") {
     return (
       <div className="flex gap-4 p-4 border rounded-lg hover:shadow-md transition-shadow">
@@ -178,14 +166,10 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
         </div>
 
         {/* Add to Cart Button */}
-        <Button
-          className="w-full"
-          size="sm"
-          // loading={addToCartLoading}
-          onClick={handleAddToCart}>
-          <ShoppingCart className="h-4 w-4 mr-2" />
-          Add to Cart
-        </Button>
+        <AddToCardButton
+          productQuantity={product.quantity}
+          productId={product._id}
+        />
       </div>
     </div>
   );

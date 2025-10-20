@@ -20,9 +20,9 @@ export default function Navbar() {
 
   const navLinks = [
     { path: "/", label: "Home" },
+    { path: "/products", label: "Products" },
     { path: "/categories", label: "Categories" },
     { path: "/brands", label: "Brands" },
-    { path: "/orders", label: "Orders" },
   ];
 
   return (

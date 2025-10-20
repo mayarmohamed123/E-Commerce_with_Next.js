@@ -8,10 +8,10 @@ import { Button, Spinner } from "@/Components";
 import { Product } from "@/interfaces";
 import { formatPrice } from "@/helpers/currency";
 import { renderStars } from "@/helpers/rating";
-import { ShoppingCart, Heart, ArrowLeft } from "lucide-react";
+import { Heart, ArrowLeft } from "lucide-react";
 import { SingleProductResponse } from "@/Types";
 import { apiServices } from "@/Services/api";
-import toast from "react-hot-toast";
+import AddToCardButton from "@/Components/products/AddToCardButton";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -19,7 +19,6 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState(-1);
-  const [addToCartLoading, setAddToCartLoading] = useState(false);
 
   async function getSingleProduct() {
     setLoading(true);
@@ -34,12 +33,6 @@ export default function ProductDetailPage() {
     } finally {
       setLoading(false);
     }
-  }
-  async function handleAddToCart() {
-    setAddToCartLoading(true);
-    await apiServices.addProductToCart(product!._id);
-    toast.success("Product added to cart");
-    setAddToCartLoading(false);
   }
 
   useEffect(() => {
@@ -179,16 +172,10 @@ export default function ProductDetailPage() {
               </div>
 
               <div className="space-y-3">
-                <Button
-                  className="w-full"
-                  size="lg"
-                  onClick={handleAddToCart}
-                  // onLoad={}
-                  disabled={product.quantity === 0 || addToCartLoading}>
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  {addToCartLoading && <Spinner />}
-                  {product.quantity > 0 ? "Add to Cart" : "Out of Stock"}
-                </Button>
+                <AddToCardButton
+                  productQuantity={product.quantity}
+                  productId={product._id}
+                />
                 <Button variant="outline" className="w-full" size="lg">
                   Buy Now
                 </Button>
