@@ -1,5 +1,6 @@
 import { AddToCartResponse, GetUserCartResponse } from "@/interfaces";
 import { ProductsResponse, SingleProductResponse } from "@/Types";
+import { json } from "stream/consumers";
 
 class ApiServicees {
   #baseUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL!;
@@ -49,6 +50,28 @@ class ApiServicees {
     return await fetch(this.#baseUrl + `api/v1/cart/${id}`, {
       method: "DELETE",
       headers: this.#getHeaders(),
+    }).then((res) => res.json());
+  }
+
+  // Clear User Cart
+  async clearUserCart(): Promise<GetUserCartResponse> {
+    return await fetch(this.#baseUrl + `api/v1/cart`, {
+      method: "DELETE",
+      headers: this.#getHeaders(),
+    }).then((res) => res.json());
+  }
+
+  // Update Cat Product Count
+  async updateCartProductCount(
+    productId: string,
+    count: number
+  ): Promise<GetUserCartResponse> {
+    return await fetch(this.#baseUrl + `api/v1/cart/` + productId, {
+      method: "put",
+      headers: this.#getHeaders(),
+      body: JSON.stringify({
+        count,
+      }),
     }).then((res) => res.json());
   }
 }

@@ -1,8 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Menu, Search, ShoppingCart, User, X } from "lucide-react";
+import {
+  Heart,
+  Loader2,
+  Menu,
+  Search,
+  ShoppingCart,
+  User,
+  X,
+} from "lucide-react";
 import {
   Button,
   DropdownMenu,
@@ -13,10 +21,12 @@ import {
   DropdownMenuSeparator,
   Badge,
 } from "../ui";
+import { cartContext } from "@/Contexts/cartContext";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cartCount, isLoading } = useContext(cartContext);
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -112,7 +122,7 @@ export default function Navbar() {
                 <Badge
                   variant="destructive"
                   className="absolute -top-1 -right-1 w-4 h-4 p-0 text-sm ">
-                  2
+                  {isLoading ? <Loader2 className="animate-spin" /> : cartCount}
                 </Badge>
               </Link>
             </Button>

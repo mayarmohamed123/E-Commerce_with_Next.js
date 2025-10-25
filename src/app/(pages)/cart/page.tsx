@@ -12,5 +12,5 @@ export default async function CartPage() {
 
   const response = await fetchCartData();
 
-  return <InnerCart />;
+  return <InnerCart cartData={response} />;
 }

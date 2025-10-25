@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Spinner } from "../ui";
 import { ShoppingCart } from "lucide-react";
 import { apiServices } from "@/Services/api";
 import toast from "react-hot-toast";
+import { cartContext } from "@/Contexts/cartContext";
 
 interface AddToCardButtonProps {
   productQuantity: number;
@@ -16,10 +17,12 @@ export default function AddToCardButton({
   productId,
 }: AddToCardButtonProps) {
   const [addToCartLoading, setAddToCartLoading] = useState<boolean>(false);
+  const { setCartCount } = useContext(cartContext);
 
   async function handleAddToCart() {
     setAddToCartLoading(true);
-    await apiServices.addProductToCart(productId);
+    const data = await apiServices.addProductToCart(productId);
+    setCartCount(data.numOfCartItems);
     toast.success("Product added to cart");
     setAddToCartLoading(false);
   }

@@ -84,10 +84,11 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
               </div>
             </div>
 
-            <Button>
-              <ShoppingCart className="h-4 w-4 mr-2" />
-              Add to Cart
-            </Button>
+            {/* Add to Cart Button */}
+            <AddToCardButton
+              productQuantity={product.quantity}
+              productId={product._id}
+            />
           </div>
         </div>
       </div>
