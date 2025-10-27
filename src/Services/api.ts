@@ -1,5 +1,5 @@
-import { AddToCartResponse, GetUserCartResponse } from "@/interfaces";
-import { ProductsResponse, SingleProductResponse } from "@/Types";
+import { AddToCartResponse, GetUserCartResponse, Category, Brand, Subcategory } from "@/interfaces";
+import { ProductsResponse, SingleProductResponse, CategoriesResponse, BrandsResponse, SubcategoriesResponse, SingleCategoryResponse, SingleBrandResponse, SingleSubcategoryResponse } from "@/Types";
 import { json } from "stream/consumers";
 
 class ApiServicees {
@@ -73,6 +73,57 @@ class ApiServicees {
         count,
       }),
     }).then((res) => res.json());
+  }
+
+  // Get All Categories
+  async getAllCategories(): Promise<CategoriesResponse> {
+    return await fetch(this.#baseUrl + "api/v1/categories", {
+      next: {
+        revalidate: 10,
+      },
+      cache: "no-cache",
+    }).then((res) => res.json());
+  }
+
+  // Get Single Category Details
+  async getSingleCategory(id: string): Promise<SingleCategoryResponse> {
+    return await fetch(this.#baseUrl + `api/v1/categories/${id}`).then((res) =>
+      res.json()
+    );
+  }
+
+  // Get All Brands
+  async getAllBrands(): Promise<BrandsResponse> {
+    return await fetch(this.#baseUrl + "api/v1/brands", {
+      next: {
+        revalidate: 10,
+      },
+      cache: "no-cache",
+    }).then((res) => res.json());
+  }
+
+  // Get Single Brand Details
+  async getSingleBrand(id: string): Promise<SingleBrandResponse> {
+    return await fetch(this.#baseUrl + `api/v1/brands/${id}`).then((res) =>
+      res.json()
+    );
+  }
+
+  // Get All Subcategories
+  async getAllSubcategories(): Promise<SubcategoriesResponse> {
+    return await fetch(this.#baseUrl + "api/v1/subcategories", {
+      next: {
+        revalidate: 10,
+      },
+      cache: "no-cache",
+    }).then((res) => res.json());
+  }
+
+  // Get Single Subcategory Details
+  async getSingleSubcategory(id: string): Promise<SingleSubcategoryResponse> {
+    return await fetch(this.#baseUrl + `api/v1/subcategories/${id}`).then((res) =>
+      res.json()
+    );
   }
 }
 
